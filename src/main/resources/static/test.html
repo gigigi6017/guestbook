@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
 
@@ -35,6 +36,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
         }
 
         /* 상단 버튼 */
@@ -62,9 +64,50 @@
             transform: scale(0.97);
         }
 
+        /* 안내 메시지 전체 영역 */
+        .notice-area {
+            max-width: 600px;
+            margin: 0 auto 25px;
+        }
+
+        /* 환영 메시지 */
+        .welcome-message {
+            background-color: #eaf2ff;
+            color: #2454a6;
+
+            border-radius: 12px;
+
+            padding: 16px 18px;
+            margin-bottom: 12px;
+
+            text-align: center;
+
+            line-height: 1.6;
+            font-size: 15px;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 경고 메시지 */
+        .warning-message {
+            background-color: #fff3cd;
+            color: #856404;
+
+            border: 1px solid #ffe69c;
+            border-radius: 12px;
+
+            padding: 16px 18px;
+
+            line-height: 1.6;
+            font-size: 14px;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
         /* 제목 */
         h1 {
             text-align: center;
+
             margin: 10px 0 25px;
 
             font-size: 28px;
@@ -88,18 +131,24 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
         }
 
+        /* 카드 안의 구분선 숨기기 */
         #guestbookList hr {
             display: none;
         }
 
+        /* 방명록 제목 */
         #guestbookList h3 {
             margin: 0 0 12px;
+
             font-size: 19px;
         }
 
+        /* 방명록 내용 */
         #guestbookList p {
             margin: 8px 0;
+
             line-height: 1.5;
+
             word-break: break-word;
         }
 
@@ -109,18 +158,22 @@
             border-radius: 8px;
 
             padding: 10px 15px;
+
             margin-top: 10px;
             margin-right: 5px;
 
             font-size: 14px;
+
             cursor: pointer;
         }
 
+        /* 첫 번째 버튼 */
         button:first-of-type {
             background-color: #4f7cff;
             color: white;
         }
 
+        /* 두 번째 버튼 */
         button:nth-of-type(2) {
             background-color: #eeeeee;
             color: #333;
@@ -140,37 +193,56 @@
 
             font-size: 15px;
             font-family: inherit;
+
             outline: none;
         }
 
+        /* 수정 입력창 선택 시 */
         #guestbookList input:focus,
         #guestbookList select:focus,
         #guestbookList textarea:focus {
             border-color: #4f7cff;
         }
 
+        /* 내용 입력창 크기 조절 */
         #guestbookList textarea {
             resize: vertical;
         }
 
-        /* 모바일 */
+        /* 모바일 화면 */
         @media (max-width: 480px) {
 
             body {
                 padding: 15px 10px;
             }
 
+            /* 모바일에서는 상단 버튼을 조금 작게 표시 */
+            .top-menu {
+                gap: 6px;
+            }
+
+            .home-button {
+                padding: 10px 12px;
+
+                font-size: 13px;
+
+                text-align: center;
+            }
+
             h1 {
                 font-size: 24px;
             }
 
+            /* 모바일 방명록 카드 */
             #guestbookList > div {
                 padding: 17px;
             }
 
-            /* 모바일에서는 버튼 크기를 조금 줄임 */
-            .home-button {
-                padding: 10px 12px;
+            /* 모바일 안내 메시지 */
+            .welcome-message,
+            .warning-message {
+                padding: 14px;
+
                 font-size: 13px;
             }
         }
@@ -194,12 +266,33 @@
 
 </div>
 
+<!-- 상단 안내 메시지 -->
+<div class="notice-area">
+
+    <!-- 환영 메시지 -->
+    <div class="welcome-message">
+        👋 방명록에 오신 것을 환영합니다!<br>
+        여러분의 소중한 의견을 자유롭게 남겨주세요.
+    </div>
+
+    <!-- 경고 메시지 -->
+    <div class="warning-message">
+        ⚠️ <strong>방명록 이용 안내</strong><br>
+        욕설, 비방, 광고 또는 다른 사람에게 불쾌감을 줄 수 있는
+        부적절한 글은 관리자에 의해 삭제될 수 있습니다.
+    </div>
+
+</div>
+
+<!-- 페이지 제목 -->
 <h1>💬 방명록</h1>
 
 <!-- 방명록이 표시되는 공간 -->
 <div id="guestbookList"></div>
 
+<!-- 방명록 목록 JavaScript -->
 <script src="test.js"></script>
 
 </body>
+
 </html>

@@ -64,6 +64,14 @@ public class GuestbookService {
 
         guestbookRepository.delete(guestbook);
     }
+    public void adminDelete(Integer id) {
+
+        Guestbook guestbook = guestbookRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("방명록을 찾을 수 없습니다."));
+
+        guestbookRepository.delete(guestbook);
+    }
+
 
 
 

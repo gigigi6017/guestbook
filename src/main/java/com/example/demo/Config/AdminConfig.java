@@ -31,7 +31,7 @@ public class AdminConfig {
             }
 
             // 관리자 비밀번호
-            String adminPassword = "1234";
+            String adminPassword = "zomboid";
 
             // 비밀번호를 BCrypt로 암호화
             String encryptedPassword =

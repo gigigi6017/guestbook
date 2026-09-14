@@ -84,7 +84,7 @@ async function loadGuestbooks() {
 
     try {
 
-        const response = await fetch("/api/guestbooks");
+        const response = await fetch("/guestbook/get");
 
         if (!response.ok) {
             throw new Error("방명록을 불러오지 못했습니다.");
@@ -153,7 +153,7 @@ async function deleteGuestbook(id) {
 
     try {
 
-        const response = await fetch(`/api/guestbooks/${id}`, {
+        const response = await fetch( `/guestbook/admin-delete?id=${id}`, {
             method: "DELETE"
         });
 

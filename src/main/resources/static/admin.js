@@ -21,11 +21,10 @@ loginButton.addEventListener("click", async () => {
     const password = adminPassword.value;
 
     // 아무것도 입력하지 않았을 경우
-    if (password === "") {
+    if (password.trim() === "") {
         loginMessage.textContent = "비밀번호를 입력해주세요.";
         return;
     }
-
 
     try {
 
@@ -36,6 +35,9 @@ loginButton.addEventListener("click", async () => {
             headers: {
                 "Content-Type": "application/json"
             },
+
+            // 관리자 로그인 세션 쿠키 유지
+            credentials: "same-origin",
 
             body: JSON.stringify({
                 password: password
@@ -54,7 +56,7 @@ loginButton.addEventListener("click", async () => {
             // 관리자 기능 보여주기
             adminArea.style.display = "block";
 
-            // 나중에 방명록 목록을 불러올 곳
+            // 방명록 목록 불러오기
             loadGuestbooks();
 
         }
@@ -84,7 +86,11 @@ async function loadGuestbooks() {
 
     try {
 
-        const response = await fetch("/guestbook/get");
+        // 네 GuestbookController의 실제 조회 주소
+        const response = await fetch("/guestbook/get", {
+            method: "GET",
+            credentials: "same-origin"
+        });
 
         if (!response.ok) {
             throw new Error("방명록을 불러오지 못했습니다.");
@@ -121,17 +127,25 @@ async function loadGuestbooks() {
                     ${guestbook.content}
                 </p>
 
-                <button onclick="deleteGuestbook(${guestbook.id})">
+                <button>
                     관리자 삭제
                 </button>
             `;
+
+            // HTML 안의 삭제 버튼 가져오기
+            const deleteButton = div.querySelector("button");
+
+            // 삭제 버튼을 눌렀을 때
+            deleteButton.addEventListener("click", () => {
+                deleteGuestbook(guestbook.id);
+            });
 
             list.appendChild(div);
         });
 
     } catch (error) {
 
-        console.error(error);
+        console.error("방명록 조회 오류:", error);
 
         document.getElementById("guestbookList").textContent =
             "방명록을 불러오지 못했습니다.";
@@ -150,12 +164,18 @@ async function deleteGuestbook(id) {
         return;
     }
 
-
     try {
 
-        const response = await fetch( `/guestbook/admin-delete?id=${id}`, {
-            method: "DELETE"
-        });
+        // 관리자 삭제 API 호출
+        const response = await fetch(
+            `/guestbook/admin-delete?id=${id}`,
+            {
+                method: "DELETE",
+
+                // 로그인 세션 쿠키 전송
+                credentials: "same-origin"
+            }
+        );
 
 
         if (response.ok) {
@@ -166,6 +186,10 @@ async function deleteGuestbook(id) {
             loadGuestbooks();
 
         } else {
+
+            const message = await response.text();
+
+            console.error("관리자 삭제 실패:", message);
 
             alert("삭제에 실패했습니다.");
 
@@ -178,4 +202,5 @@ async function deleteGuestbook(id) {
         alert("서버와 연결할 수 없습니다.");
 
     }
+
 }

@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Rating 테스트</title>
+</head>
+<body>
+
+<h1>방문록 테스트</h1>
+
+<form id="ratingForm">
+
+    <label>
+        별점:
+        <select id="rating">
+            <option value="1">⭐ 1점</option>
+            <option value="2">⭐ 2점</option>
+            <option value="3">⭐ 3점</option>
+            <option value="4">⭐ 4점</option>
+            <option value="5">⭐ 5점</option>
+        </select>
+    </label>
+
+    <br><br>
+
+    <label>
+        이름:
+        <input type="text" id="name" maxlength="12" required>
+    </label>
+
+    <br><br>
+
+    <label>
+        내용:
+        <input type="text" id="content" maxlength="40">
+    </label>
+
+    <br><br>
+
+    <label>
+        비밀번호:
+        <input type="password" id="password" maxlength="4" required>
+    </label>
+
+    <br><br>
+
+    <button type="submit">등록</button>
+
+</form>
+
+<p id="result"></p>
+
+<script src="index.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 휴대폰 화면에 맞게 표시 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>방명록 작성</title>
+
+    <style>
+        /* 전체 기본 설정 */
+        * {
+            box-sizing: border-box;
+        }
+
+        /* 화면 전체 */
+        body {
+            margin: 0;
+            padding: 20px 15px;
+
+            background-color: #f5f6f8;
+
+            font-family:
+                    Arial,
+                    "Noto Sans KR",
+                    sans-serif;
+
+            color: #333;
+        }
+
+        /* 상단 메뉴 */
+        .top-menu {
+            max-width: 500px;
+            margin: 0 auto 20px;
+        }
+
+        /* 방명록 목록 이동 버튼 */
+        .list-button {
+            display: inline-block;
+
+            padding: 11px 16px;
+
+            background-color: white;
+            color: #333;
+
+            text-decoration: none;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        /* 제목 */
+        h1 {
+            text-align: center;
+
+            margin: 10px 0 25px;
+
+            font-size: 28px;
+        }
+
+        /* 작성 카드 */
+        .rating-card {
+            max-width: 500px;
+
+            margin: 0 auto;
+
+            padding: 25px 20px;
+
+            background-color: white;
+
+            border-radius: 18px;
+
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        /* 설명 */
+        .description {
+            text-align: center;
+
+            color: #777;
+
+            font-size: 14px;
+
+            margin-bottom: 25px;
+        }
+
+        /* 입력 그룹 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* 입력 제목 */
+        label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 15px;
+
+            font-weight: bold;
+        }
+
+        /* 입력창 */
+        input,
+        select {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 10px;
+
+            font-size: 15px;
+
+            font-family: inherit;
+
+            outline: none;
+        }
+
+        /* 입력창 클릭 */
+        input:focus,
+        select:focus {
+            border-color: #4f7cff;
+        }
+
+        /* 등록 버튼 */
+        .submit-button {
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background-color: #4f7cff;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        /* 버튼 누를 때 */
+        .submit-button:active {
+            transform: scale(0.98);
+        }
+
+        /* 결과 메시지 */
+        #result {
+            text-align: center;
+
+            margin-top: 20px;
+
+            font-size: 14px;
+        }
+
+        /* 휴대폰 화면 */
+        @media (max-width: 480px) {
+
+            body {
+                padding: 15px 10px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+
+            .rating-card {
+                padding: 22px 17px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- 방명록 목록으로 이동 -->
+<div class="top-menu">
+    <a href="test.html" class="list-button">
+        💬 방명록 목록 보기
+    </a>
+</div>
+
+
+<h1>✍️ 방명록 작성</h1>
+
+
+<!-- 작성 카드 -->
+<div class="rating-card">
+
+    <p class="description">
+        방문해주셔서 감사합니다!<br>
+        소중한 의견을 남겨주세요.
+    </p>
+
+
+    <form id="ratingForm">
+
+        <!-- 별점 -->
+        <div class="form-group">
+
+            <label for="rating">
+                ⭐ 별점
+            </label>
+
+            <select id="rating" required>
+                <option value="1">⭐ 1점</option>
+                <option value="2">⭐ 2점</option>
+                <option value="3">⭐ 3점</option>
+                <option value="4">⭐ 4점</option>
+                <option value="5" selected>⭐ 5점</option>
+            </select>
+
+        </div>
+
+
+        <!-- 이름 -->
+        <div class="form-group">
+
+            <label for="name">
+                👤 이름
+            </label>
+
+            <input
+                    type="text"
+                    id="name"
+                    maxlength="12"
+                    placeholder="이름을 입력하세요 최대 12글자"
+                    required
+            >
+
+        </div>
+
+
+        <!-- 내용 -->
+        <div class="form-group">
+
+            <label for="content">
+                💬 내용
+            </label>
+
+            <input
+                    type="text"
+                    id="content"
+                    maxlength="40"
+                    placeholder="방명록 내용을 입력하세요 최대 40자"
+            >
+
+        </div>
+
+
+        <!-- 비밀번호 -->
+        <div class="form-group">
+
+            <label for="password">
+                🔒 비밀번호
+            </label>
+
+            <input
+                    type="password"
+                    id="password"
+                    maxlength="4"
+                    inputmode="numeric"
+                    placeholder="수정/삭제에 사용할 비밀번호 최대4자리"
+                    required
+            >
+
+        </div>
+
+
+        <!-- 등록 -->
+        <button
+                type="submit"
+                class="submit-button"
+        >
+            방명록 등록하기
+        </button>
+
+    </form>
+
+
+    <!-- 결과 메시지 -->
+    <p id="result"></p>
+
+</div>
+
+
+<!-- 등록 기능 JavaScript -->
+<script src="text.js"></script>
+
+</body>
+</html>

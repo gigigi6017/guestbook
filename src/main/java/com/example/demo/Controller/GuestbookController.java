@@ -3,6 +3,8 @@ package com.example.demo.Controller;
 import com.example.demo.Entity.Guestbook;
 import com.example.demo.Service.GuestbookService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,51 +20,104 @@ public class GuestbookController {
         this.guestbookService = guestbookService;
     }
 
-    // 전체 댓글 조회
+    // 전체 방명록 조회
     @GetMapping("/get")
-    public List<Guestbook> findAll() {
-        return guestbookService.findAll();
+    public ResponseEntity<List<Guestbook>> findAll() {
+
+        List<Guestbook> guestbooks = guestbookService.findAll();
+
+        return ResponseEntity.ok(guestbooks);
     }
 
-    // 평점 + 댓글 저장
+    // 평점 + 방명록 저장
     @PostMapping("/post")
-    public Guestbook save(@RequestBody Guestbook guestbook) {
-        return guestbookService.save(guestbook);
+    public ResponseEntity<Guestbook> save(
+            @RequestBody Guestbook guestbook
+    ) {
+
+        Guestbook savedGuestbook = guestbookService.save(guestbook);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(savedGuestbook);
     }
 
     // 방명록 수정
     @PutMapping("/put")
-    public Guestbook update(@RequestBody Guestbook guestbook) {
-        return guestbookService.update(guestbook);
+    public ResponseEntity<?> update(
+            @RequestBody Guestbook guestbook
+    ) {
+
+        try {
+
+            Guestbook updatedGuestbook =
+                    guestbookService.update(guestbook);
+
+            return ResponseEntity.ok(updatedGuestbook);
+
+        } catch (RuntimeException e) {
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(e.getMessage());
+        }
     }
 
     // 일반 사용자 삭제
     @DeleteMapping("/delete")
-    public String delete(
+    public ResponseEntity<String> delete(
             @RequestParam Integer id,
             @RequestParam String password
     ) {
-        guestbookService.delete(id, password);
-        return "글이 삭제 되었습니다.";
+
+        try {
+
+            // 전달받은 ID와 비밀번호로 삭제
+            guestbookService.delete(id, password);
+
+            return ResponseEntity.ok("글이 삭제되었습니다.");
+
+        } catch (RuntimeException e) {
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(e.getMessage());
+        }
     }
 
     // 관리자 삭제
     @DeleteMapping("/admin-delete")
-    public String adminDelete(
+    public ResponseEntity<String> adminDelete(
             @RequestParam Integer id,
             HttpSession session
     ) {
 
-        // 관리자 로그인 여부 확인
-        Boolean isAdmin = (Boolean) session.getAttribute("admin");
+        // 세션에 저장된 관리자 로그인 여부 확인
+        Boolean isAdmin =
+                (Boolean) session.getAttribute("admin");
 
+        // 관리자 로그인 여부 확인
         if (!Boolean.TRUE.equals(isAdmin)) {
-            throw new RuntimeException("관리자 로그인이 필요합니다.");
+
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("관리자 로그인이 필요합니다.");
         }
 
-        // 관리자이므로 비밀번호 없이 삭제
-        guestbookService.adminDelete(id);
+        try {
 
-        return "관리자 권한으로 글이 삭제되었습니다.";
+            // 관리자 권한으로 비밀번호 없이 삭제
+            guestbookService.adminDelete(id);
+
+            return ResponseEntity.ok(
+                    "관리자 권한으로 글이 삭제되었습니다."
+            );
+
+        } catch (RuntimeException e) {
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(e.getMessage());
+        }
     }
 }

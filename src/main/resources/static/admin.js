@@ -114,6 +114,11 @@ adminPassword.addEventListener("keydown", (event) => {
 // 관리자용 방명록 목록 불러오기
 async function loadGuestbooks() {
 
+    const list = document.getElementById("guestbookList");
+
+    // 불러오는 중 표시
+    list.textContent = "방명록을 불러오는 중입니다...";
+
     try {
 
         const response = await fetch("/guestbook/get", {
@@ -121,14 +126,25 @@ async function loadGuestbooks() {
             credentials: "include"
         });
 
+        // 응답 상태 확인
+        console.log("방명록 조회 상태:", response.status);
+
+        // 응답 실패
         if (!response.ok) {
-            throw new Error("방명록 조회 실패");
+
+            const errorMessage = await response.text();
+
+            throw new Error(
+                `조회 실패 (${response.status}): ${errorMessage}`
+            );
         }
 
+        // JSON 변환
         const guestbooks = await response.json();
 
-        const list = document.getElementById("guestbookList");
+        console.log("받은 방명록:", guestbooks);
 
+        // 기존 목록 삭제
         list.innerHTML = "";
 
         // 방명록이 없는 경우
@@ -138,7 +154,7 @@ async function loadGuestbooks() {
             return;
         }
 
-        // 방명록 표시
+        // 방명록 목록 출력
         guestbooks.forEach((guestbook) => {
 
             const div = document.createElement("div");
@@ -166,7 +182,6 @@ async function loadGuestbooks() {
                 </button>
             `;
 
-            // 삭제 버튼
             const deleteButton = div.querySelector("button");
 
             deleteButton.addEventListener("click", () => {
@@ -174,18 +189,16 @@ async function loadGuestbooks() {
             });
 
             list.appendChild(div);
-
         });
 
     } catch (error) {
 
         console.error("방명록 조회 오류:", error);
 
-        document.getElementById("guestbookList").textContent =
-            "방명록을 불러오지 못했습니다.";
-
+        // 오류 내용을 화면에 표시
+        list.textContent =
+            "방명록을 불러오지 못했습니다. " + error.message;
     }
-
 }
 
 

@@ -5,9 +5,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+
+
 
 @Entity
 @Table(name = "Guestbook")
@@ -39,6 +40,6 @@ public class Guestbook {
 
     @PrePersist
     public void prePersist() {
-        createdAt = LocalDateTime.now();
+        createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     }
 }
